@@ -16,7 +16,7 @@ func Q(w, x, y, z float64) Quat {
 }
 
 // QAxisAngle returns a quaternion with rotation a around axis v
-func QAxisAngle(v Vec3, a Angle) Quat {
+func QAxisAngle(v Vec, a Angle) Quat {
 	v = v.Unit()
 	// Here we calculate the sin( theta / 2) once for optimization
 	factor := math.Sin(a.Radians() / 2.0)
@@ -33,7 +33,7 @@ func QAxisAngle(v Vec3, a Angle) Quat {
 }
 
 // QFromTo returns quaternion that rotates from v1 to v2
-func QFromTo(v1, v2 Vec3) Quat {
+func QFromTo(v1, v2 Vec) Quat {
 	axis := v1.Cross(v2)
 	angle := v1.AngleTo(v2)
 	return QAxisAngle(axis, angle)
@@ -98,11 +98,11 @@ func (qin Quat) Inv() Quat {
 }
 
 // Apply returns the vector rotated by the quaternion.
-func (qin Quat) Apply(vec Vec3) Vec3 {
+func (qin Quat) Apply(vec Vec) Vec {
 	conj := qin.Conj()
 	aug := Quat{0, vec.X, vec.Y, vec.Z}
 	rot := qin.Prod(aug).Prod(conj)
-	return Vec3{rot.X, rot.Y, rot.Z}
+	return Vec{rot.X, rot.Y, rot.Z}
 }
 
 // RotateByGlobal rotates quaternion a by b along the local axis relative to a. It is sugar for a*b

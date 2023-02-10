@@ -2,17 +2,17 @@ package math3d
 
 // AxesRemapper allows remapping of vectors from one axis space to another
 type AxesRemapper struct {
-	SrcForward Vec3 `json:"src_forward"`
-	SecUp      Vec3 `json:"src_up"`
-	SrcLeft    Vec3 `json:"src_left"`
+	SrcForward Vec `json:"src_forward"`
+	SecUp      Vec `json:"src_up"`
+	SrcLeft    Vec `json:"src_left"`
 
-	TarForward Vec3 `json:"target_forward"`
-	TarUp      Vec3 `json:"target_up"`
-	TarLeft    Vec3 `json:"target_left"`
+	TarForward Vec `json:"target_forward"`
+	TarUp      Vec `json:"target_up"`
+	TarLeft    Vec `json:"target_left"`
 }
 
 // NewAxesRemapper creates an AxesRemapper that converts from src to tar
-func NewAxesRemapper(SrcForward, SrcUp, SrcLeft, TarForward, TarUp, TarLeft Vec3) *AxesRemapper {
+func NewAxesRemapper(SrcForward, SrcUp, SrcLeft, TarForward, TarUp, TarLeft Vec) *AxesRemapper {
 	return &AxesRemapper{
 		SrcForward, SrcUp, SrcLeft,
 		TarForward, TarUp, TarLeft,
@@ -20,7 +20,7 @@ func NewAxesRemapper(SrcForward, SrcUp, SrcLeft, TarForward, TarUp, TarLeft Vec3
 }
 
 // Remap the vector from coordinate system with Src axes to coordinate system with Target axes, whilst keeping the meaning of the vector
-func (a *AxesRemapper) RemapVec(v Vec3) Vec3 {
+func (a *AxesRemapper) RemapVec(v Vec) Vec {
 	fwd := v.Dot(a.SrcForward)
 	lft := v.Dot(a.SrcLeft)
 	up := v.Dot(a.SecUp)
@@ -28,7 +28,7 @@ func (a *AxesRemapper) RemapVec(v Vec3) Vec3 {
 }
 
 // Remap the vector from coordinate system with Target axes to coordinate system with Src axes, whilst keeping the meaning of the vector
-func (a *AxesRemapper) RemapVecInverse(v Vec3) Vec3 {
+func (a *AxesRemapper) RemapVecInverse(v Vec) Vec {
 	fwd := v.Dot(a.TarForward)
 	lft := v.Dot(a.TarLeft)
 	up := v.Dot(a.TarUp)
